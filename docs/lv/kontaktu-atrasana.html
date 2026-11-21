@@ -1,0 +1,451 @@
+<meta charset="utf-8">
+<title>P3 spidometra kontakti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Darbnīcas instrukcija: viena kolonna, katrs solis ar savu zīmējumu; vara toņi kā lodējumam, zili zaļš kā platei */
+:root {
+  --bg: #f3f1ec;
+  --panel: #fbfaf7;
+  --fg: #1d2420;
+  --muted: #5d6660;
+  --line: #d6d2c8;
+  --board: #2f6b4f;
+  --board-soft: #e2ece5;
+  --copper: #b8692e;
+  --copper-soft: #f4e3d4;
+  --pin: #c9a227;
+  --red: #c0392b;
+  --blue: #2d64b3;
+  --ok: #2f7d4f;
+  --font-display: "Archivo", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151a17; --panel: #1c231f; --fg: #e8ebe6; --muted: #9aa59d; --line: #34403a;
+    --board: #6fbf95; --board-soft: #213229; --copper: #e0965c; --copper-soft: #3a2a1d;
+    --pin: #e3c050; --red: #ef6b5c; --blue: #6fa0f0; --ok: #6fcf97; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151a17; --panel: #1c231f; --fg: #e8ebe6; --muted: #9aa59d; --line: #34403a;
+  --board: #6fbf95; --board-soft: #213229; --copper: #e0965c; --copper-soft: #3a2a1d;
+  --pin: #e3c050; --red: #ef6b5c; --blue: #6fa0f0; --ok: #6fcf97; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+}
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--copper); }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 6vw, 40px); line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.2; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+.lead { color: var(--muted); font-size: 17px; }
+section.step {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 20px; display: flex; flex-direction: column; gap: 14px;
+}
+.step-head { display: flex; gap: 12px; align-items: baseline; }
+.num {
+  flex: none; font-family: var(--font-mono); font-weight: 600; font-size: 14px;
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--copper); color: var(--panel);
+}
+ul, ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; max-width: 65ch; }
+.fig { overflow-x: auto; background: var(--bg); border-radius: 8px; padding: 12px; }
+.fig svg { display: block; width: 100%; height: auto; min-width: 300px; }
+.fig svg.wide { min-width: 520px; }
+.cap { font-size: 13px; color: var(--muted); }
+code, .mono { font-family: var(--font-mono); font-size: .92em; }
+.note { border-left: 3px solid var(--copper); background: var(--copper-soft); padding: 10px 14px; border-radius: 0 6px 6px 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.two > * { min-width: 0; }
+@media (max-width: 620px) { .two { grid-template-columns: 1fr; } }
+
+/* tabula */
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td.role { font-weight: 600; }
+.chip { display: inline-block; font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.c-h { background: var(--copper-soft); color: var(--copper); }
+.c-l { background: color-mix(in srgb, var(--blue) 15%, transparent); color: var(--blue); }
+.c-g { background: var(--line); color: var(--fg); }
+.c-p { background: color-mix(in srgb, var(--red) 15%, transparent); color: var(--red); }
+select {
+  font: inherit; font-family: var(--font-mono); padding: 6px 8px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--fg); min-width: 96px;
+}
+select:focus-visible, button:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+.out { display: flex; flex-direction: column; gap: 10px; }
+textarea {
+  font-family: var(--font-mono); font-size: 13px; width: 100%; box-sizing: border-box; min-height: 120px;
+  padding: 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); resize: vertical;
+}
+.btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+button {
+  font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--copper); background: var(--copper); color: var(--panel);
+}
+button.ghost { background: transparent; color: var(--copper); }
+.status { font-size: 14px; color: var(--ok); }
+
+/* SVG krāsas no tokeniem */
+.s-house { fill: var(--panel); stroke: var(--muted); stroke-width: 2; }
+.s-cav { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
+.s-pin { fill: var(--pin); }
+.s-pinbox { fill: transparent; stroke: transparent; stroke-width: 2.5; }
+.s-txt { fill: var(--fg); font-family: var(--font-mono); font-size: 13px; }
+.s-small { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+.s-tag { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.s-board { fill: var(--board-soft); stroke: var(--board); stroke-width: 2; }
+.s-chip { fill: var(--fg); }
+.s-chipleg { fill: var(--muted); }
+.s-coat { fill: color-mix(in srgb, var(--blue) 25%, transparent); }
+.s-screw { fill: var(--panel); stroke: var(--muted); stroke-width: 2; }
+.s-pad { fill: var(--pin); stroke: var(--copper); stroke-width: 1; }
+.s-hl { fill: none; stroke: var(--copper); stroke-width: 2.5; stroke-dasharray: 5 4; }
+.s-legH { fill: var(--copper); }
+.s-legL { fill: var(--blue); }
+.s-legG { fill: var(--muted); }
+.s-box { fill: var(--panel); stroke: var(--muted); stroke-width: 1.5; }
+.w-p { stroke: var(--red); stroke-width: 3; fill: none; }
+.w-g { stroke: var(--fg); stroke-width: 3; fill: none; }
+.w-h { stroke: var(--copper); stroke-width: 3; fill: none; }
+.w-l { stroke: var(--blue); stroke-width: 3; fill: none; }
+.w-usb { stroke: var(--muted); stroke-width: 3; fill: none; stroke-dasharray: 2 5; stroke-linecap: round; }
+.f-red { fill: var(--red); } .f-cu { fill: var(--copper); } .f-blue { fill: var(--blue); } .f-fg { fill: var(--fg); }
+@media (prefers-reduced-motion: no-preference) { .s-pinbox { transition: stroke .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Volvo P3 · 31453090 · kontaktu atrašana</span>
+    <h1>Kurš spraudņa kontakts ir kas</h1>
+    <p class="lead">Ar multimetru atradīsim četrus vajadzīgos kontaktus: +12 V, masu un CAN vadu pāri. Barošana šajā laikā nav pieslēgta, tāpēc nekas nevar sabojāties.</p>
+  </header>
+
+  <section class="step">
+    <div class="step-head"><span class="num">1</span><h2>Sagatavo multimetru</h2></div>
+    <ul>
+      <li>Barošanas bloks <b>atvienots</b> no spidometra.</li>
+      <li>Grozāmo slēdzi pagriez uz <b>pīkstošo režīmu</b>: simbols ar skaņas viļņiem <span class="mono">•)))</span>, bieži kopā ar diodes simbolu.</li>
+      <li>Pārbaudi: saskar abas zondes kopā. Multimetrs pīkst? Tad viss kārtībā.</li>
+    </ul>
+    <p>Princips vienkāršs: ja starp abām zondēm ir vads vai celiņš, multimetrs <b>pīkst</b>. Ja nav, klusē.</p>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">2</span><h2>Kontaktu nosaukumi spraudnī</h2></div>
+    <p>Skaties baltajā spraudnī no priekšpuses, kā savā pirmajā bildē: izcilnis ar uzrakstu <span class="mono">CN1</span> ir <b>augšā</b>. Kontaktus sauksim šādi:</p>
+    <div class="fig">
+      <svg id="conn" viewBox="0 0 380 230" role="img" aria-label="Spraudņa CN1 skats no priekšpuses ar kontaktu nosaukumiem">
+        <rect class="s-house" x="20" y="30" width="340" height="180" rx="16"/>
+        <rect class="s-house" x="160" y="14" width="60" height="26" rx="4"/>
+        <text class="s-small" x="190" y="31" text-anchor="middle">CN1</text>
+        <rect class="s-cav" x="40" y="60" width="300" height="130" rx="8"/>
+        <g id="pins"></g>
+        <text class="s-small" x="190" y="224" text-anchor="middle">skats no priekšpuses</text>
+      </svg>
+    </div>
+    <p class="cap">Augšējā rindā ir tikai trīs kontakti: A1, A2 pa kreisi un A7 pa labi. Apakšējā rindā septiņi: B1 līdz B7 no kreisās uz labo. Kad aizpildīsi tabulu 5. solī, šeit kontakti iekrāsosies.</p>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">3</span><h2>Kur uz plates meklēt</h2></div>
+    <p>Apgriez plati ar mikroshēmām uz augšu (to pusi, kas bija zem ciparnīcas). Tev vajag trīs lietas, visas blakus spraudņa lodējumiem starp divām skrūvēm:</p>
+    <div class="fig">
+      <svg class="wide" viewBox="0 0 540 330" role="img" aria-label="Plates daļas karte: spraudņa lodējumi, D2, U6 un U7">
+        <rect class="s-board" x="10" y="10" width="520" height="310" rx="14"/>
+        <!-- D2 -->
+        <rect x="236" y="28" width="22" height="34" rx="3" class="s-chip"/>
+        <rect x="236" y="56" width="22" height="6" class="f-cu"/>
+        <text class="s-tag f-red" x="266" y="44">D2</text>
+        <text class="s-small" x="266" y="58">aizsargdiode, +12 V ieeja</text>
+        <rect class="s-hl" x="228" y="20" width="38" height="50" rx="6"/>
+        <!-- skrūves -->
+        <circle class="s-screw" cx="150" cy="70" r="18"/><path d="M140 70h20M150 60v20" stroke="currentColor" class="s-chipleg" style="stroke:var(--muted);stroke-width:2"/>
+        <circle class="s-screw" cx="150" cy="282" r="18"/><path d="M140 282h20M150 272v20" style="stroke:var(--muted);stroke-width:2"/>
+        <text class="s-small" x="40" y="74">skrūve</text>
+        <text class="s-small" x="40" y="286">skrūve</text>
+        <!-- spraudņa lodējumi -->
+        <g id="pads"></g>
+        <rect class="s-hl" x="128" y="98" width="46" height="160" rx="6"/>
+        <text class="s-small" x="40" y="170">spraudņa</text>
+        <text class="s-small" x="40" y="184">lodējumi</text>
+        <path d="M96 176 L124 176" style="stroke:var(--muted);stroke-width:1.5" />
+        <!-- U6 / U7 ar zilo laku -->
+        <rect class="s-coat" x="250" y="104" width="84" height="66" rx="12"/>
+        <rect class="s-coat" x="250" y="186" width="84" height="66" rx="12"/>
+        <g id="u6"></g><g id="u7"></g>
+        <text class="s-tag f-fg" x="344" y="132">U6</text>
+        <text class="s-tag f-fg" x="344" y="214">U7</text>
+        <text class="s-small" x="344" y="148">zilā laka</text>
+        <text class="s-small" x="344" y="230">uzraksts 6251DS</text>
+        <text class="s-small" x="250" y="304">lielā kvadrātveida mikroshēma ir lejā pa labi</text>
+      </svg>
+    </div>
+    <p class="cap">Zīmējums ir shematisks, nevis mērogā. Orientieri: D2 ir mazs melns taisnstūris pa labi no augšējās skrūves; U6 un U7 ir divas mazas melnas mikroshēmas zilā lakā, viena virs otras.</p>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">4</span><h2>Kā skaitīt mikroshēmas kājas</h2></div>
+    <div class="two">
+      <div class="fig">
+        <svg viewBox="0 0 300 240" role="img" aria-label="8 kāju mikroshēmas kāju numurācija">
+          <g id="chipbig"></g>
+        </svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <p>Uz mikroshēmas viens stūris ir atzīmēts ar <b>punktiņu</b> vai iedobi. Tai blakus ir <b>1. kāja</b>.</p>
+        <ol>
+          <li>Skaiti uz leju tajā pašā pusē: 1, 2, 3, 4.</li>
+          <li>Pārej uz otru pusi un skaiti uz augšu: 5, 6, 7, 8.</li>
+          <li><b>8. kāja</b> ir tieši pretī 1. kājai.</li>
+        </ol>
+        <p>Mums vajag tikai trīs kājas:</p>
+        <p><span class="chip c-h">7 = CAN-H</span> <span class="chip c-l">6 = CAN-L</span> <span class="chip c-g">2 = masa</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">5</span><h2>Mēri un atzīmē</h2></div>
+    <ol>
+      <li><b>Viena zonde</b> uz mikroshēmas kājas no tabulas (piemēram, U6, 7. kāja). Turi stingri, lai nenoslīd uz blakus kāju.</li>
+      <li><b>Ar otru zondi</b> pa kārtai pieskaries katram spraudņa kontaktam no priekšpuses: A1, A2, A7, B1 līdz B7. Zondes galu iebīdi caurumā, līdz tas skar metāla kājiņu.</li>
+      <li>Kad <b>pīkst</b>, tabulā izvēlies šo kontaktu. Ja nepīkst ne ar vienu, izvēlies «nepīkst».</li>
+    </ol>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Kur viena zonde</th><th>Kas tas ir</th><th>Pīkst ar kontaktu</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="note">Masa (U6 2. kāja) var pīkstēt ar vairākiem kontaktiem. Atzīmē pirmo, citus vari ierakstīt laukā zemāk. D2 pārbaudi abus galus: tas gals, kas pīkst ar kādu kontaktu, ir +12 V ieeja.</div>
+    <div class="out">
+      <label for="extra" class="cap">Piezīmes (ja kāds kontakts pīkstēja ar vairākiem, vai kas cits dīvains)</label>
+      <textarea id="extra" placeholder="piemēram: masa pīkst arī ar B7"></textarea>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">6</span><h2>Atsūti rezultātu</h2></div>
+    <p>Teksts zemāk veidojas pats no tabulas. Nokopē to un nosūti tam, kas tev palīdz ar projektu, vai pievieno GitHub pieteikumam.</p>
+    <div class="out">
+      <textarea id="result" readonly aria-label="Rezultāts kopēšanai"></textarea>
+      <div class="btns">
+        <button id="copy" type="button">Kopēt rezultātu</button>
+        <button id="reset" type="button" class="ghost">Notīrīt tabulu</button>
+        <span id="status" class="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">7</span><h2>Kā tas pēc tam tiks pieslēgts</h2></div>
+    <p>Šo vēl <b>nedari</b>, kamēr neesam kopā pārbaudījuši rezultātu. Zīmējums tikai parāda, uz ko mēs ejam. Kontaktu nosaukumi tajā aizpildās no tabulas.</p>
+    <div class="fig">
+      <svg class="wide" viewBox="0 0 640 330" role="img" aria-label="Pieslēgšanas shēma: barošanas bloks, spidometrs, CAN shield un Arduino">
+        <!-- barošanas bloks -->
+        <rect class="s-box" x="20" y="30" width="150" height="110" rx="8"/>
+        <text class="s-tag f-fg" x="95" y="56" text-anchor="middle">Barošanas bloks</text>
+        <text class="s-small" x="95" y="74" text-anchor="middle">12 V, 0,5 A</text>
+        <circle cx="60" cy="112" r="9" class="f-red"/><text class="s-tag f-red" x="60" y="134" text-anchor="middle">+</text>
+        <circle cx="130" cy="112" r="9" class="f-fg"/><text class="s-tag f-fg" x="130" y="134" text-anchor="middle">−</text>
+        <!-- spidometrs -->
+        <rect class="s-box" x="240" y="20" width="170" height="290" rx="8"/>
+        <text class="s-tag f-fg" x="325" y="46" text-anchor="middle">Spidometrs</text>
+        <text class="s-small" x="325" y="62" text-anchor="middle">spraudnis CN1</text>
+        <text class="s-txt" x="255" y="102" id="lbl-p">+12 V: ?</text>
+        <text class="s-txt" x="255" y="152" id="lbl-g">masa: ?</text>
+        <text class="s-txt" x="255" y="222" id="lbl-h">CAN-H: ?</text>
+        <text class="s-txt" x="255" y="272" id="lbl-l">CAN-L: ?</text>
+        <!-- shield + arduino -->
+        <rect class="s-box" x="470" y="150" width="150" height="160" rx="8"/>
+        <text class="s-tag f-fg" x="545" y="176" text-anchor="middle">CAN shield</text>
+        <text class="s-small" x="545" y="192" text-anchor="middle">uz Arduino Uno</text>
+        <text class="s-small" x="545" y="208" text-anchor="middle">PWR_OBD = OFF</text>
+        <text class="s-tag f-cu" x="488" y="224">CANH</text>
+        <text class="s-tag f-blue" x="488" y="274">CANL</text>
+        <text class="s-tag f-fg" x="560" y="250">GND</text>
+        <!-- vadi -->
+        <path class="w-p" d="M60 103 V 98 H 245"/>
+        <path class="w-g" d="M130 103 V 148 H 245"/>
+        <path class="w-g" d="M400 148 H 440 V 246 H 555"/>
+        <path class="w-h" d="M400 218 H 470"/>
+        <path class="w-l" d="M400 268 H 470"/>
+        <circle cx="440" cy="148" r="4" class="f-fg"/>
+        <path class="w-usb" d="M545 150 V 110 H 600"/>
+        <text class="s-small" x="545" y="102">USB uz datoru</text>
+      </svg>
+    </div>
+    <ul>
+      <li>Melnais vads uz shield GND ir svarīgs: bez kopīgas masas CAN nestrādās.</li>
+      <li>Sākumā izmanto U6 pāri. Ja tur būs klusums, pārliksim vadus uz U7 pāri.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // Spraudņa kontakti: 7 kolonnas, augšā tikai 1, 2, 7.
+  var colX = function (i) { return 70 + i * 40; };
+  var PINS = [];
+  [0, 1, 6].forEach(function (i) { PINS.push({ name: 'A' + (i + 1), x: colX(i), y: 100 }); });
+  for (var i = 0; i < 7; i++) PINS.push({ name: 'B' + (i + 1), x: colX(i), y: 150 });
+  var pinsG = document.getElementById('pins');
+  var pinEls = {};
+  PINS.forEach(function (p) {
+    var g = el('g', {});
+    var box = el('rect', { 'class': 's-pinbox', x: p.x - 15, y: p.y - 15, width: 30, height: 30, rx: 5 });
+    g.appendChild(box);
+    g.appendChild(el('rect', { 'class': 's-pin', x: p.x - 6, y: p.y - 6, width: 12, height: 12, rx: 1 }));
+    var lbl = el('text', { 'class': 's-txt', x: p.x, y: p.y < 120 ? p.y - 22 : p.y + 32, 'text-anchor': 'middle' }, p.name);
+    g.appendChild(lbl);
+    var tag = el('text', { 'class': 's-tag', x: p.x, y: p.y < 120 ? p.y + 30 : p.y + 46, 'text-anchor': 'middle' }, '');
+    g.appendChild(tag);
+    pinsG.appendChild(g);
+    pinEls[p.name] = { box: box, tag: tag };
+  });
+
+  // Plates lodējumi: divas kolonnas.
+  var padsG = document.getElementById('pads');
+  for (var r = 0; r < 8; r++) {
+    padsG.appendChild(el('circle', { 'class': 's-pad', cx: 140, cy: 112 + r * 19, r: 5 }));
+    padsG.appendChild(el('circle', { 'class': 's-pad', cx: 162, cy: 112 + r * 19, r: 5 }));
+  }
+
+  // Maza mikroshēma kartē.
+  function smallChip(g, x, y) {
+    for (var k = 0; k < 4; k++) {
+      g.appendChild(el('rect', { 'class': 's-chipleg', x: x - 8, y: y + 6 + k * 11, width: 8, height: 5 }));
+      g.appendChild(el('rect', { 'class': 's-chipleg', x: x + 44, y: y + 6 + k * 11, width: 8, height: 5 }));
+    }
+    g.appendChild(el('rect', { 'class': 's-chip', x: x, y: y, width: 44, height: 50, rx: 3 }));
+    g.appendChild(el('circle', { cx: x + 8, cy: y + 8, r: 3, style: 'fill:var(--panel)' }));
+  }
+  smallChip(document.getElementById('u6'), 270, 112);
+  smallChip(document.getElementById('u7'), 270, 194);
+
+  // Lielā mikroshēma ar numuriem.
+  var cb = document.getElementById('chipbig');
+  var cx = 105, cy = 30, cw = 90, ch = 170;
+  var roles = { 2: ['masa', 's-legG'], 6: ['CAN-L', 's-legL'], 7: ['CAN-H', 's-legH'] };
+  for (var n = 1; n <= 8; n++) {
+    var left = n <= 4;
+    var idx = left ? n - 1 : 8 - n;
+    var y = cy + 22 + idx * 38;
+    var role = roles[n];
+    var cls = role ? role[1] : 's-chipleg';
+    var lx = left ? cx - 26 : cx + cw;
+    cb.appendChild(el('rect', { 'class': cls, x: lx, y: y - 6, width: 26, height: 12, rx: 2 }));
+    cb.appendChild(el('text', { 'class': 's-txt', x: left ? lx - 8 : lx + 34, y: y + 5, 'text-anchor': left ? 'end' : 'start' }, String(n)));
+    if (role) {
+      cb.appendChild(el('text', { 'class': 's-tag', x: left ? lx - 26 : lx + 52, y: y + 5, 'text-anchor': left ? 'end' : 'start', style: 'fill:var(--fg)' }, role[0]));
+    }
+  }
+  cb.appendChild(el('rect', { 'class': 's-chip', x: cx, y: cy, width: cw, height: ch, rx: 6 }));
+  cb.appendChild(el('circle', { cx: cx + 16, cy: cy + 16, r: 7, style: 'fill:var(--panel)' }));
+  cb.appendChild(el('text', { 'class': 's-small', x: cx + cw / 2, y: cy + ch / 2, 'text-anchor': 'middle', style: 'fill:var(--panel)' }, '6251DS'));
+  cb.appendChild(el('text', { 'class': 's-small', x: cx + cw / 2, y: cy + ch + 22, 'text-anchor': 'middle' }, 'punktiņš = 1. kāja'));
+
+  // Tabula.
+  var TARGETS = [
+    { id: 'u6h', where: 'U6, 7. kāja', role: 'CAN-H', net: '1. tīkls', chip: 'c-h', short: 'H1' },
+    { id: 'u6l', where: 'U6, 6. kāja', role: 'CAN-L', net: '1. tīkls', chip: 'c-l', short: 'L1' },
+    { id: 'u7h', where: 'U7, 7. kāja', role: 'CAN-H', net: '2. tīkls', chip: 'c-h', short: 'H2' },
+    { id: 'u7l', where: 'U7, 6. kāja', role: 'CAN-L', net: '2. tīkls', chip: 'c-l', short: 'L2' },
+    { id: 'gnd', where: 'U6, 2. kāja', role: 'masa', net: '', chip: 'c-g', short: 'GND' },
+    { id: 'd2a', where: 'D2, viens gals', role: '+12 V?', net: '', chip: 'c-p', short: '12V' },
+    { id: 'd2b', where: 'D2, otrs gals', role: '+12 V?', net: '', chip: 'c-p', short: '12V' }
+  ];
+  var OPTIONS = [['', 'izvēlies'], ['none', 'nepīkst']].concat(PINS.map(function (p) { return [p.name, p.name]; }));
+  var COLORS = { 'c-h': 'var(--copper)', 'c-l': 'var(--blue)', 'c-g': 'var(--fg)', 'c-p': 'var(--red)' };
+
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem('p3-kontakti') || '{}') || {}; } catch (e) { state = {}; }
+
+  var tbody = document.getElementById('rows');
+  TARGETS.forEach(function (t) {
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td'); td1.textContent = t.where; tr.appendChild(td1);
+    var td2 = document.createElement('td'); td2.className = 'role';
+    var c = document.createElement('span'); c.className = 'chip ' + t.chip; c.textContent = t.role + (t.net ? ' · ' + t.net : '');
+    td2.appendChild(c); tr.appendChild(td2);
+    var td3 = document.createElement('td');
+    var sel = document.createElement('select'); sel.id = 'sel-' + t.id; sel.setAttribute('aria-label', t.where + ': pīkst ar kontaktu');
+    OPTIONS.forEach(function (o) { var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op); });
+    sel.value = state[t.id] || '';
+    sel.addEventListener('change', function () { state[t.id] = sel.value; save(); render(); });
+    td3.appendChild(sel); tr.appendChild(td3);
+    tbody.appendChild(tr);
+  });
+  var extra = document.getElementById('extra');
+  extra.value = state.extra || '';
+  extra.addEventListener('input', function () { state.extra = extra.value; save(); render(); });
+
+  function save() { try { localStorage.setItem('p3-kontakti', JSON.stringify(state)); } catch (e) {} }
+
+  function render() {
+    // notīra iekrāsojumu
+    Object.keys(pinEls).forEach(function (k) { pinEls[k].box.style.stroke = 'transparent'; pinEls[k].tag.textContent = ''; });
+    var lines = ['P3 spidometrs, kontaktu mērījums:'];
+    TARGETS.forEach(function (t) {
+      var v = state[t.id];
+      var txt = !v ? 'nav izmērīts' : (v === 'none' ? 'nepīkst' : 'pīkst ar ' + v);
+      lines.push(t.where + ' (' + t.role + (t.net ? ', ' + t.net : '') + '): ' + txt);
+      if (v && v !== 'none' && pinEls[v]) {
+        pinEls[v].box.style.stroke = COLORS[t.chip];
+        var cur = pinEls[v].tag.textContent;
+        pinEls[v].tag.textContent = cur && cur.indexOf(t.short) < 0 ? cur + '/' + t.short : t.short;
+        pinEls[v].tag.style.fill = COLORS[t.chip];
+      }
+    });
+    if (state.extra) lines.push('Piezīmes: ' + state.extra);
+    document.getElementById('result').value = lines.join('\n');
+
+    function pick(id) { var v = state[id]; return v && v !== 'none' ? v : '?'; }
+    var p12 = pick('d2a') !== '?' ? pick('d2a') : pick('d2b');
+    document.getElementById('lbl-p').textContent = '+12 V: ' + p12;
+    document.getElementById('lbl-g').textContent = 'masa: ' + pick('gnd');
+    document.getElementById('lbl-h').textContent = 'CAN-H: ' + pick('u6h');
+    document.getElementById('lbl-l').textContent = 'CAN-L: ' + pick('u6l');
+  }
+  render();
+
+  var status = document.getElementById('status');
+  document.getElementById('copy').addEventListener('click', function () {
+    var ta = document.getElementById('result');
+    function fallback() { ta.focus(); ta.select(); status.textContent = 'Teksts iezīmēts, nospied Ctrl+C.'; }
+    try {
+      navigator.clipboard.writeText(ta.value).then(function () { status.textContent = 'Nokopēts.'; }, fallback);
+    } catch (e) { fallback(); }
+  });
+  document.getElementById('reset').addEventListener('click', function () {
+    state = {}; save();
+    TARGETS.forEach(function (t) { document.getElementById('sel-' + t.id).value = ''; });
+    extra.value = ''; status.textContent = 'Tabula notīrīta.'; render();
+  });
+})();
+</script>
