@@ -1,0 +1,19 @@
+# RX only, 125 kbit/s
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 23895, failed 0, TEC 0, REC 0
+# IDs from cluster: 0

@@ -35,19 +35,19 @@ Looking into the white connector **CN1** on the back of the cluster, latch at th
 
 | Pin | Function | Verified by |
 |---|---|---|
-| **B7** | +12 V supply | continuity to reverse-polarity diode D2 |
+| **A7** | +12 V supply | continuity to reverse-polarity diode D2, powered on the bench |
 | **A1** | Ground | continuity to transceiver U6 pin 2 |
 | **B4** | CAN-H, bus 1 | transceiver U6 pin 7 |
 | **B5** | CAN-L, bus 1 | transceiver U6 pin 6 |
 | **B3** | CAN-H, bus 2 | transceiver U7 pin 7 |
 | **A2** | CAN-L, bus 2 | transceiver U7 pin 6 |
 
-There is no separate ignition wire: the cluster is expected to wake on CAN traffic. Details and the measuring method are in [docs/pinout.md](docs/pinout.md). **Measure your own unit before applying power.** Other part numbers and model years may differ.
+There is no separate ignition wire: the cluster is expected to wake on CAN traffic. An earlier version said B7 for +12 V; the A/B naming may be mirrored, so confirm +12 V by continuity to D2. Details and the measuring method are in [docs/pinout.md](docs/pinout.md). **Measure your own unit before applying power.** Other part numbers and model years may differ.
 
 ## Wiring
 
 ```
-12 V supply (+) ---------------------- B7
+12 V supply (+) ---------------------- A7
 12 V supply (-) ------+--------------- A1
                       |
 Arduino GND ----------+     (common ground is required)
@@ -56,7 +56,7 @@ Shield CANL -------------------------- B5   (bus 1)
 Arduino USB --- PC
 ```
 
-If bus 1 stays silent, try bus 2 (B3 / A2).
+Bus 1 is the 500 kbit/s high-speed bus. Bus 2 (B3 / A2) has not answered yet.
 
 ## Firmware
 
@@ -65,7 +65,9 @@ Built with [PlatformIO](https://platformio.org/). Each stage of the project is i
 | Environment | Folder | What it does |
 |---|---|---|
 | `sniffer` | `src/sniffer/` | Listens to the bus, auto-detects bit rate, probes whether the cluster acknowledges frames. Transmits nothing unless you ask it to. |
-| `simulator` | planned | Wake the cluster and drive the gauges |
+| `car` | `src/sniffer/` | **Car logging build.** Locked to 500 kbit/s listen-only: cannot transmit or ACK. Safe on a car's OBD port (pins 6/14). |
+| `simulator` | `src/simulator/` | **Bench only, transmits.** Replays a 2009 XC70 high-speed snapshot, with the 0x400 configuration matched to the cluster's stored config, plus diagnostic commands (DTCs, DID scan, config rejects). |
+| `waker` | `src/waker/` | **Bench only, transmits.** Brute-force search for a frame that wakes bus 2. |
 
 ```
 pio run -e sniffer -t upload
@@ -96,6 +98,10 @@ logs/            CAN captures from real clusters and cars
 dbc/             decoded message definitions, once known
 ```
 
+## Status (November 2026)
+
+The cluster answers diagnostics and accepts the simulated configuration, but the display stays dark and the needles do not move. Full notes, DTCs and next steps: [docs/findings.md](docs/findings.md).
+
 ## Roadmap
 
 1. Confirm bit rate of both buses and whether the cluster transmits on its own
@@ -106,7 +112,7 @@ dbc/             decoded message definitions, once known
 
 ## Safety
 
-Work on the bench only. Do not connect a modified setup to a car's network. Sending wrong frames on a vehicle bus can disturb safety systems.
+Work on the bench only. Only the `car` build may be connected to a car: it is listen-only. Never upload `simulator` or `waker` while the Arduino is connected to a car. Sending wrong frames on a vehicle bus can disturb safety systems.
 
 ## License
 

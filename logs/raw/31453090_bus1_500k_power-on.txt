@@ -1,0 +1,3 @@
+# Bit rate 500 kbit/s, mode: listen-only
+# Bit rate 500 kbit/s, mode: normal (ACK)
+# IDs seen: 0

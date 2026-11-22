@@ -18,16 +18,20 @@ The cluster has one white 10-pin connector, marked **CN1** on the board. Pin nam
 |---|---|---|
 | A1 | Ground | U6 pin 2 (GND) |
 | A2 | CAN-L, bus 2 | U7 pin 6 |
-| A7 | not identified | |
+| A7 | +12 V | D2 (reverse-polarity diode); confirmed on the bench |
 | B1 | not identified | |
 | B2 | not identified | |
 | B3 | CAN-H, bus 2 | U7 pin 7 |
 | B4 | CAN-H, bus 1 | U6 pin 7 |
 | B5 | CAN-L, bus 1 | U6 pin 6 |
 | B6 | not identified | |
-| B7 | +12 V | D2 (reverse-polarity diode) |
+| B7 | not identified | |
 
-Which bus is low speed (125 kbit/s) and which is high speed (500 kbit/s) is not confirmed yet.
+An earlier version of this table had +12 V on B7. On the bench the diode D2 trace runs to **A7**, and powering A7 works. The A/B row naming may therefore be mirrored on your unit: always confirm +12 V by continuity to D2 before powering.
+
+Bus 1 (U6) runs at **500 kbit/s** (high-speed CAN, diagnostics on request 0x720 / response 0x728). Bus 2 (U7) never acknowledged at 125 or 500 kbit/s; see [findings.md](findings.md).
+
+The unused positions measured 0 V and open circuit to ground (board test points TP2, TP3, TP4, TP5). There is no ignition input.
 
 Forum reports say older P3 clusters (up to model year 2013) use only four wires in this connector, and that 2014 and later clusters add two more for a high-speed CAN bus. That is consistent with two CAN pairs on this unit, but it is not verified here.
 
@@ -39,7 +43,7 @@ Power off, multimeter in continuity (beep) mode, with the cluster board removed 
 2. A beep means a direct connection.
 3. On an 8-pin transceiver, pin 1 is next to the dot; count down that side 1 to 4, then up the other side 5 to 8. For the TLE6251DS: pin 2 = GND, pin 6 = CAN-L, pin 7 = CAN-H.
 
-Before first power-up, check that +12 V and ground are not shorted (B7 to A1 must not beep continuously).
+Before first power-up, check that +12 V and ground are not shorted (A7 to A1 must not beep continuously).
 
 An illustrated version of this procedure, in Latvian, is in [lv/kontaktu-atrasana.html](lv/kontaktu-atrasana.html).
 

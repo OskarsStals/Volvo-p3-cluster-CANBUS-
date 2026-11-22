@@ -1,0 +1,35 @@
+# Volvo P3 DIM simulator (BENCH ONLY, transmits)
+# 500 kbit/s, replaying 45 IDs every 50 ms
+# Commands: g = start, x = stop, s = summary, d/D = DTCs, r<rpm>, w = RPM sweep, h = help
+# 0x405 mode 1
+# Sent 4302, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 8781, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 10302, failed 1301, TEC 128, REC 0
+# IDs from cluster: 0
+# Sent 12144, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 16623, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 21101, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 25580, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 30058, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 34537, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 39015, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 43494, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 47972, failed 2459, TEC 0, REC 0
+# IDs from cluster: 0
+# DIAG TX 61245	STD 720	8	03 19 02 09 00 00 00 00 
+# DIAG RX 61286	STD 728	8	07 59 02 FA C0 01 55 2F 
+# DIAG TX 62746	STD 720	8	03 19 02 FF 00 00 00 00 
+# DIAG RX 62785	STD 728	8	10 17 59 02 FA 90 8E 07 
+# DIAG RX 62795	STD 728	8	21 50 C0 01 55 2F C2 50 
+# DIAG RX 62804	STD 728	8	22 00 50 C5 51 68 50 F0 
+# DIAG RX 62815	STD 728	8	23 00 45 40 00 00 00 00 

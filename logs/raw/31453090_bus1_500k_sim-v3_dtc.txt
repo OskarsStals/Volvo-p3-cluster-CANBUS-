@@ -1,0 +1,19 @@
+# Volvo P3 DIM simulator (BENCH ONLY, transmits)
+# 500 kbit/s, replaying 45 IDs every 50 ms
+# Commands: g = start, x = stop, s = summary, d/D = DTCs, r<rpm>, w = RPM sweep, h = help
+# Sent 4320, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 8820, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 13320, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# Sent 17820, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# DIAG TX 23760	STD 720	8	03 19 02 09 00 00 00 00 
+# DIAG RX 23797	STD 728	8	07 59 02 FA E1 00 00 2F 
+# Sent 21600, failed 0, TEC 0, REC 0
+# IDs from cluster: 0
+# DIAG TX 25261	STD 720	8	03 19 02 FF 00 00 00 00 
+# DIAG RX 25296	STD 728	8	10 13 59 02 FA 90 8E 07 
+# DIAG RX 25307	STD 728	8	21 50 C2 50 00 50 C5 51 
+# DIAG RX 25316	STD 728	8	22 68 50 E1 00 00 2F 00 

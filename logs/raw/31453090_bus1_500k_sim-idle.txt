@@ -1,0 +1,45 @@
+22:50:28	# Volvo P3 DIM simulator (BENCH ONLY, transmits)
+22:50:28	# 500 kbit/s, replaying 45 IDs every 50 ms
+22:50:28	# Commands: g = start sending, x = stop, s = summary, h = help
+22:50:33	# Sent 0, failed 1890, TEC 128, REC 0
+22:50:33	# IDs from cluster: 0
+22:50:38	# Sent 0, failed 3870, TEC 128, REC 0
+22:50:38	# IDs from cluster: 0
+22:50:43	# Sent 3777, failed 4188, TEC 0, REC 0
+22:50:43	# IDs from cluster: 0
+22:50:48	# Sent 7108, failed 4727, TEC 128, REC 0
+22:50:48	# IDs from cluster: 0
+22:50:53	# Sent 7108, failed 6707, TEC 128, REC 0
+22:50:53	# IDs from cluster: 0
+22:50:58	# Sent 7108, failed 8687, TEC 128, REC 0
+22:50:58	# IDs from cluster: 0
+22:51:03	# Sent 7108, failed 10667, TEC 128, REC 0
+22:51:03	# IDs from cluster: 0
+22:51:08	# Sent 7108, failed 12647, TEC 128, REC 0
+22:51:08	# IDs from cluster: 0
+22:51:13	# Sent 9825, failed 13440, TEC 0, REC 0
+22:51:13	# IDs from cluster: 0
+22:51:18	# Sent 14325, failed 13440, TEC 0, REC 0
+22:51:18	# IDs from cluster: 0
+22:51:23	# Sent 18825, failed 13440, TEC 0, REC 0
+22:51:23	# IDs from cluster: 0
+22:51:28	# Sent 23325, failed 13440, TEC 0, REC 0
+22:51:28	# IDs from cluster: 0
+22:51:33	# Sent 27825, failed 13440, TEC 0, REC 0
+22:51:33	# IDs from cluster: 0
+22:51:38	# Sent 32325, failed 13440, TEC 0, REC 0
+22:51:38	# IDs from cluster: 0
+22:51:43	# Sent 36825, failed 13440, TEC 0, REC 0
+22:51:43	# IDs from cluster: 0
+22:51:48	# Sent 41325, failed 13440, TEC 0, REC 0
+22:51:48	# IDs from cluster: 0
+22:51:53	# Sent 45825, failed 13440, TEC 0, REC 0
+22:51:53	# IDs from cluster: 0
+22:51:58	# Sent 50325, failed 13440, TEC 0, REC 0
+22:51:58	# IDs from cluster: 0
+22:52:03	# Sent 54825, failed 13440, TEC 0, REC 0
+22:52:03	# IDs from cluster: 0
+22:52:08	# Sent 59325, failed 13440, TEC 0, REC 0
+22:52:08	# IDs from cluster: 0
+22:52:13	# Sent 63825, failed 13440, TEC 0, REC 0
+22:52:13	# IDs from cluster: 0

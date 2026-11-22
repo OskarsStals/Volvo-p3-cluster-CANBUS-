@@ -1,0 +1,250 @@
+# Bit rate 500 kbit/s, mode: listen-only
+# Bit rate 500 kbit/s, mode: normal (ACK)
+# DID scan 0x0-0xCFFF
+# at 0x0
+# at 0x100
+# at 0x200
+DID 202
+12068	STD 728	8	04 62 02 02 00 00 00 00 
+# at 0x300
+# at 0x400
+# at 0x500
+# at 0x600
+# at 0x700
+# at 0x800
+# at 0x900
+# at 0xA00
+# at 0xB00
+# at 0xC00
+# at 0xD00
+# at 0xE00
+# at 0xF00
+# at 0x1000
+# at 0x1100
+# at 0x1200
+# at 0x1300
+# at 0x1400
+# at 0x1500
+# at 0x1600
+# at 0x1700
+# at 0x1800
+# at 0x1900
+# at 0x1A00
+# at 0x1B00
+# at 0x1C00
+# at 0x1D00
+# at 0x1E00
+# at 0x1F00
+# at 0x2000
+# at 0x2100
+# at 0x2200
+# at 0x2300
+# at 0x2400
+# at 0x2500
+# at 0x2600
+# at 0x2700
+# at 0x2800
+# at 0x2900
+# at 0x2A00
+# at 0x2B00
+# at 0x2C00
+# at 0x2D00
+# at 0x2E00
+# at 0x2F00
+# at 0x3000
+# at 0x3100
+# at 0x3200
+# at 0x3300
+# at 0x3400
+# at 0x3500
+# at 0x3600
+# at 0x3700
+# at 0x3800
+# at 0x3900
+# at 0x3A00
+# at 0x3B00
+# at 0x3C00
+# at 0x3D00
+# at 0x3E00
+# at 0x3F00
+# at 0x4000
+# at 0x4100
+# at 0x4200
+# at 0x4300
+# at 0x4400
+# at 0x4500
+# at 0x4600
+# at 0x4700
+# at 0x4800
+# at 0x4900
+# at 0x4A00
+# at 0x4B00
+# at 0x4C00
+# at 0x4D00
+# at 0x4E00
+# at 0x4F00
+# at 0x5000
+# at 0x5100
+# at 0x5200
+# at 0x5300
+# at 0x5400
+# at 0x5500
+# at 0x5600
+# at 0x5700
+# at 0x5800
+# at 0x5900
+# at 0x5A00
+# at 0x5B00
+# at 0x5C00
+# at 0x5D00
+# at 0x5E00
+# at 0x5F00
+# at 0x6000
+# at 0x6100
+DID 61BB
+501872	STD 728	8	06 62 61 BB 03 2A 8D 00 
+DID 61CA
+502172	STD 728	8	05 62 61 CA 00 00 00 00 
+DID 61CB
+502192	STD 728	8	05 62 61 CB 00 00 00 00 
+DID 61CC
+502212	STD 728	8	10 0A 62 61 CC 02 FF 6E 
+502221	STD 728	8	21 28 BF 01 0B 00 00 00 
+DID 61D0
+502592	STD 728	8	05 62 61 D0 00 00 00 00 
+DID 61D1
+502611	STD 728	8	05 62 61 D1 00 00 00 00 
+# at 0x6200
+# at 0x6300
+DID 630E
+508948	STD 728	8	10 09 62 63 0E 2B 1F 22 
+508958	STD 728	8	21 17 00 BF 00 00 00 00 
+# at 0x6400
+# at 0x6500
+# at 0x6600
+# at 0x6700
+# at 0x6800
+# at 0x6900
+# at 0x6A00
+# at 0x6B00
+# at 0x6C00
+# at 0x6D00
+# at 0x6E00
+# at 0x6F00
+# at 0x7000
+# at 0x7100
+# at 0x7200
+# at 0x7300
+# at 0x7400
+# at 0x7500
+# at 0x7600
+# at 0x7700
+# at 0x7800
+# at 0x7900
+# at 0x7A00
+# at 0x7B00
+# at 0x7C00
+# at 0x7D00
+# at 0x7E00
+# at 0x7F00
+# at 0x8000
+# at 0x8100
+# at 0x8200
+# at 0x8300
+# at 0x8400
+# at 0x8500
+# at 0x8600
+# at 0x8700
+# at 0x8800
+# at 0x8900
+# at 0x8A00
+# at 0x8B00
+# at 0x8C00
+# at 0x8D00
+# at 0x8E00
+# at 0x8F00
+# at 0x9000
+# at 0x9100
+# at 0x9200
+# at 0x9300
+# at 0x9400
+# at 0x9500
+# at 0x9600
+# at 0x9700
+# at 0x9800
+# at 0x9900
+# at 0x9A00
+# at 0x9B00
+# at 0x9C00
+# at 0x9D00
+# at 0x9E00
+# at 0x9F00
+# at 0xA000
+# at 0xA100
+# at 0xA200
+# at 0xA300
+# at 0xA400
+# at 0xA500
+# at 0xA600
+# at 0xA700
+# at 0xA800
+# at 0xA900
+# at 0xAA00
+# at 0xAB00
+# at 0xAC00
+# at 0xAD00
+# at 0xAE00
+# at 0xAF00
+# at 0xB000
+# at 0xB100
+# at 0xB200
+# at 0xB300
+# at 0xB400
+# at 0xB500
+# at 0xB600
+# at 0xB700
+# at 0xB800
+# at 0xB900
+# at 0xBA00
+# at 0xBB00
+# at 0xBC00
+# at 0xBD00
+# at 0xBE00
+# at 0xBF00
+# at 0xC000
+# at 0xC100
+# at 0xC200
+# at 0xC300
+# at 0xC400
+# at 0xC500
+# at 0xC600
+# at 0xC700
+# at 0xC800
+# at 0xC900
+# at 0xCA00
+# at 0xCB00
+# at 0xCC00
+# at 0xCD00
+# at 0xCE00
+# at 0xCF00
+DID CFA0
+1064788	STD 728	8	10 1B 62 CF A0 00 00 00 
+1064798	STD 728	8	21 00 00 00 00 00 00 00 
+1064808	STD 728	8	22 00 00 00 00 00 00 00 
+1064818	STD 728	8	23 00 00 00 00 00 00 00 
+DID CFA1
+1065108	STD 728	8	10 1B 62 CF A1 00 00 00 
+1065118	STD 728	8	21 00 00 00 00 00 00 00 
+1065128	STD 728	8	22 00 00 00 00 00 00 00 
+1065138	STD 728	8	23 00 00 00 00 00 00 00 
+DID CFA2
+1065428	STD 728	8	10 1B 62 CF A2 00 00 00 
+1065438	STD 728	8	21 00 00 00 00 00 00 00 
+1065448	STD 728	8	22 00 00 00 00 00 00 00 
+1065458	STD 728	8	23 00 00 00 00 00 00 00 
+DID CFA3
+1065748	STD 728	8	10 1B 62 CF A3 00 00 00 
+1065757	STD 728	8	21 00 00 00 00 00 00 00 
+1065767	STD 728	8	22 00 00 00 00 00 00 00 
+1065778	STD 728	8	23 00 00 00 00 00 00 00 
+# DID scan done, found 12

@@ -1,0 +1,2 @@
+# Bit rate 125 kbit/s, mode: listen-only
+# Bit rate 125 kbit/s, mode: normal (ACK)

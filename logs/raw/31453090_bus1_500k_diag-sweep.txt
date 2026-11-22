@@ -1,0 +1,8 @@
+# Bit rate 500 kbit/s, mode: listen-only
+# Bit rate 500 kbit/s, mode: normal (ACK)
+# Diag ping: 0x7DF 02 10 01
+# Diag done
+# Diag sweep: 02 10 01 to 0x700-0x7EF
+5038	STD 728	8	06 50 01 00 32 01 F4 00 
+12673	STD 728	8	06 50 01 00 32 01 F4 00 
+# Diag done

@@ -1,0 +1,29 @@
+23:11:36	
+23:11:36	# sweep 00: sent 23628, acked 810, TEC 48
+23:11:36	snapshot: sent 21236, acked 810, TEC 16
+23:11:36	# P2 29-bit: sent 21836, acked 810, TEC 16
+23:11:36	# sweep 00: sent 23628, acked 810, TEC 48
+23:11:38	# Volvo P3 DIM bus wake search (BENCH ONLY, transmits)
+23:11:38	# 125 kbit/s. Commands: 1 = 125k, 5 = 500k, s = status
+23:11:41	# snapshot: sent 900, acked 0, TEC 96
+23:11:43	# P2 29-bit: sent 1500, acked 0, TEC 96
+23:11:49	# sweep 00: sent 3292, acked 0, TEC 32
+23:11:54	# sweep FF: sent 5084, acked 0, TEC 64
+23:11:57	# snapshot: sent 5984, acked 0, TEC 64
+23:11:59	# P2 29-bit: sent 6584, acked 0, TEC 64
+23:12:05	# sweep 00: sent 8376, acked 0, TEC 96
+23:12:11	# sweep FF: sent 10168, acked 0, TEC 32
+23:12:14	# snapshot: sent 11068, acked 0, TEC 32
+23:12:16	# P2 29-bit: sent 11668, acked 0, TEC 32
+23:12:21	# sweep 00: sent 13460, acked 0, TEC 64
+23:12:27	# sweep FF: sent 15252, acked 0, TEC 96
+23:12:30	# snapshot: sent 16152, acked 0, TEC 96
+23:12:32	# P2 29-bit: sent 16752, acked 0, TEC 96
+23:12:38	# sweep 00: sent 18544, acked 0, TEC 32
+23:12:43	# sweep FF: sent 20336, acked 0, TEC 64
+23:12:46	# snapshot: sent 21236, acked 0, TEC 64
+23:12:48	# P2 29-bit: sent 21836, acked 0, TEC 64
+23:12:54	# sweep 00: sent 23628, acked 0, TEC 96
+23:13:00	# sweep FF: sent 25420, acked 0, TEC 32
+23:13:03	# snapshot: sent 26320, acked 0, TEC 32
+23:13:05	# P2 29-bit: sent 26920, acked 0, TEC 32

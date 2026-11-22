@@ -1,0 +1,8 @@
+22:41:55 step1 doors closed
+22:42:34 step2 key in, ignition I
+22:42:58 step3 ignition II
+22:43:45 step4 engine running
+22:44:20 step5 revs to 3000
+22:44:53 step6 indicators left then right
+22:45:30 step7 lights were ON; now OFF then ON again
+22:45:57 step8 engine off, key out
