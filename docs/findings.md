@@ -45,3 +45,9 @@ The cluster holds 207,501 km (`03 2A 8D` in DIDs 61BB, D935, DD01). The donor ca
 ## Privacy
 
 The car log `XC70-2009_obd-6-14_500k_session1.txt` and the simulator snapshot had the donor car VIN in 0x405 indices 0x10-0x12. Those bytes are replaced with `X` (0x58).
+
+## Software leads (research, 23 November 2026)
+
+- **d5t5 VDASH TFT retrofit** (https://d5t5.com/article/tft-retrofit): a 2014-2017 DIM runs in a 2007-2013 P3 car with only HS-CAN added (DIM pins 7/8 to OBD 6/14), no gateway. VDASH first decodes the car's CEM (about 12 h), then backs up and reconfigures the DIM. So the old car's frames are likely enough, and the blocker is a DIM-side configuration/pairing step (U0001-55, "-55" = not configured), not a missing frame. VDASH needs a J2534/DiCE interface; whether its wizard runs without a car is unknown.
+- **VIDA database extractors**: https://github.com/spnda/volvo_vida_db, https://github.com/Tigo2000/Volvo-VIDA. These are the only route found to the P3 car-config parameter list and DIM service definitions. They need your own copy of the VIDA DB.
+- Not found: SimHub or game integrations, P3 bench testers. Minitools SEP-CAN-VOL covers P2 only.
