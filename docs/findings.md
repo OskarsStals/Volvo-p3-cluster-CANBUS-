@@ -51,3 +51,26 @@ The car log `XC70-2009_obd-6-14_500k_session1.txt` and the simulator snapshot ha
 - **d5t5 VDASH TFT retrofit** (https://d5t5.com/article/tft-retrofit): a 2014-2017 DIM runs in a 2007-2013 P3 car with only HS-CAN added (DIM pins 7/8 to OBD 6/14), no gateway. VDASH first decodes the car's CEM (about 12 h), then backs up and reconfigures the DIM. So the old car's frames are likely enough, and the blocker is a DIM-side configuration/pairing step (U0001-55, "-55" = not configured), not a missing frame. VDASH needs a J2534/DiCE interface; whether its wizard runs without a car is unknown.
 - **VIDA database extractors**: https://github.com/spnda/volvo_vida_db, https://github.com/Tigo2000/Volvo-VIDA. These are the only route found to the P3 car-config parameter list and DIM service definitions. They need your own copy of the VIDA DB.
 - Not found: SimHub or game integrations, P3 bench testers. Minitools SEP-CAN-VOL covers P2 only.
+
+## From VIDA 2014D (local database, not in this repo)
+
+Closest DIM variant is **31412815 AD** (HS-CAN 500 kbit/s, request 0x720 / response 0x728). 451 of its 459 identifiers match the DIDs found on our 31453090 by scanning, so the layout is effectively the same.
+
+| ID | Name in VIDA | Our reading |
+|---|---|---|
+| Routine 0x0202 | On-Demand Self-Test, "Gauge and lamp, quick test" (31 01 / 02 / 03) | not tried yet |
+| D10E | HSCAN Network Management State (5 latest) | 20 21 20 = NMNormal, NMPreSleepNormal, NMNormal |
+| D10F | MSCAN Network Management State | 07 01 FF |
+| DD07 | Power mode: bits 7-5 quality, bits 4-0 extension | 0x67 = quality OK, 0x07 "combustion engine running" |
+| DD01 | Total Distance | |
+| 61BB | Odometer Store | 03 2A 8D = 207,501 km |
+| E103 | Car Configuration Parameter Faults | |
+| F106 | Vehicle Configuration Parameters | |
+| EE49 / EE4A | Engine speed / vehicle speed needle angle | |
+| EE60 / EE61 | Power management status, main node / private sub node | 00 / 00 |
+| EE07 | Short/open LED of display backlight detection | |
+| EECD | LCD backlight illumination dimming | |
+
+The DIM therefore sees power mode "engine running" and HS network management "normal" from the simulator. The dark display is not caused by power mode.
+
+VIDA has security code type `DIM000` "DIM, Y2, Default Key" for this variant (value kept local).
