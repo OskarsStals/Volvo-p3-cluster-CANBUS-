@@ -74,3 +74,14 @@ Closest DIM variant is **31412815 AD** (HS-CAN 500 kbit/s, request 0x720 / respo
 The DIM therefore sees power mode "engine running" and HS network management "normal" from the simulator. The dark display is not caused by power mode.
 
 VIDA has security code type `DIM000` "DIM, Y2, Default Key" for this variant (value kept local).
+
+### More from VIDA (variant 31412815 AD)
+
+- **Quick test, VIDA's own sequence:** `10 03`, `31 01 02 02`, wait about 20 s, `31 03 02 02`, `10 01`. Stop is `31 02 02 02`. No security access. It drives lamps, LCD and needles without any CAN signals, so it separates hardware faults from signal/config faults.
+- **Speed signals not decoded:** D940 (engine speed) and D990 (vehicle speed) stay at 0, as do the needle angles EE49 / EE4A / EE4C, with simulation off, on and at 3000 rpm. Use D940 as feedback while trying RPM frame formats.
+- **HS network management flapping:** D10E = 20 21 20 21 20, which alternates between NMNormal and NMPreSleepNormal. This probably causes U0001-55 and the lost-communication monitors never starting.
+- **Backlight / dimming DIDs read zero:** EECD-EECF, EEF2, EEF4, EE80, EE81, and the LCD temperature A/D EE25.
+- **Needle calibration looks blank:** EE7A-EE7E = FF. Routine 0xF002 "Perform Zero Point Detection" exists but no VIDA script uses it. Risky; only after the quick test.
+- **F106 decode:** the stored configuration is an XC70 2009 D5244T4, left-hand drive, automatic, Europe.
+- **No demo, dyno or showroom mode** for the DIM. No script writes F106. Security access is only used for theme/persona writes. The database has no CAN signal definitions.
+- **Risky routines:** F003 odometer reset (high), F001 service reminder reset, F002 zero point detection, programming routines (never).
