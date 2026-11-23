@@ -116,7 +116,10 @@ static void printFrame(uint32_t id, uint8_t len, const uint8_t *buf) {
 
 // Print a received frame only when it is new or its data changed, so a busy
 // cluster does not flood the serial link.
+static bool logDiag = true;   // print every diagnostic frame (0x700-0x7FF, and 29-bit) to log a tester session
 static void handleRx(uint32_t id, uint8_t len, const uint8_t *buf) {
+  uint32_t raw = id & 0x1FFFFFFFUL;
+  if (logDiag && ((id & 0x80000000UL) || (raw >= 0x700 && raw <= 0x7FF))) { Serial.print(F("D ")); printFrame(id, len, buf); return; }
   for (uint8_t i = 0; i < seenCount; i++) {
     if (seen[i].id != id) continue;
     if (seen[i].count < 65535) seen[i].count++;
@@ -282,6 +285,7 @@ void loop() {
       for (uint8_t i = 0; i < skipCount; i++) if (skipIds[i] == id) { skipIds[i] = skipIds[--skipCount]; found = true; break; }
       if (!found && id && skipCount < 16) skipIds[skipCount++] = id;
       Serial.print(F("# skipping ")); Serial.println(skipCount);
+    } else if (c == 'L') { logDiag = !logDiag; Serial.println(logDiag ? F("# diag logging on") : F("# diag logging off"));
     } else if (c == 'p') { realTiming = !realTiming; Serial.println(realTiming ? F("# real per-ID timing") : F("# 50 ms burst timing"));
     } else if (c == 'm') { extraOn = !extraOn; Serial.println(extraOn ? F("# extra V60 IDs on") : F("# extra V60 IDs off"));
     } else if (c == 'c') { // clear all DTCs (diagnostic memory only)
