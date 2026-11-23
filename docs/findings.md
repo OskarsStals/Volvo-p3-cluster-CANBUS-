@@ -111,3 +111,10 @@ Measured to ground. Pin 1 is at the left edge, as marked on the flex.
 | 13 | 0 | 26 | 0 |
 
 The display has logic supply, a 12 V rail and an 8 V rail, and the DIM is clocking data into it. It stays fully black, even under a flashlight (probably a transmissive TFT, which shows nothing without backlight). At power-up it flashes very faintly once. Either the backlight is switched off by the DIM, or the backlight/panel is faulty.
+
+## Display module and backlight
+
+- LCD module **LM1284A01-1D**, dated 2017-02-27 (matches the cluster). No public datasheet found.
+- A separate narrow flex from the module goes to pads at **J1** (marked "A"), probably the backlight LED string.
+- With 12 V on: one J1 pad reads **12 V**, the other **8 V** (the same 8 V as flex pins 24/25). Only 4 V across a multi-LED string means no current flows: the backlight looks switched off by its drive circuit, not broken.
+- Next confirmation: a 470 Ω - 2.2 kΩ resistor from the 8 V pad to ground should make the backlight glow if the LEDs are fine. Never short it directly.
