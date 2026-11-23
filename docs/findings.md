@@ -85,3 +85,7 @@ VIDA has security code type `DIM000` "DIM, Y2, Default Key" for this variant (va
 - **F106 decode:** the stored configuration is an XC70 2009 D5244T4, left-hand drive, automatic, Europe.
 - **No demo, dyno or showroom mode** for the DIM. No script writes F106. Security access is only used for theme/persona writes. The database has no CAN signal definitions.
 - **Risky routines:** F003 odometer reset (high), F001 service reminder reset, F002 zero point detection, programming routines (never).
+
+## Quick test result (23 November 2026)
+
+`31 01 02 02` started (status 2), and `31 03 02 02` reported completed (status 0, no on-demand DTCs). **Needles swept, warning LEDs lit, buzzer sounded, display stayed dark.** So the gauges, LEDs and sound work, and the display fails even in self-test, without any CAN signals. EE25 (LCD temperature A/D) reads 0000 while the other analog inputs EE21-EE24 read normal values (01F1, 0248, 01F1, 020B). This points to the LCD module or its flex connection, not to the CAN simulation.
