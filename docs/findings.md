@@ -126,3 +126,4 @@ The display has logic supply, a 12 V rail and an 8 V rail, and the DIM is clocki
 - D10E now reads 23 20 2B 21 20: latest **NMExpulsion**, then NMNormal, NMReset, NMPreSleepNormal, NMNormal.
 - Dropping likely DIM-owned IDs (0x3C0, 0x3EE, 0x1D1, then also 0x392, 0x39B): the DIM still transmits nothing. U2100 no longer appears, U0001-55 stays active, D10E unchanged.
 - Simulator has a skip list (`z<id>` toggles, `z0` clears) for this kind of test.
+- **Real per-ID timing** (`periods_xc70_2009.h`, simulator `p` toggles, now default): same result. DIM silent, U0001-55 active, D10E unchanged (23 20 2B 21 20), D940/D990 speed DIDs 0, EECD 0.

@@ -14,6 +14,7 @@
 #include <SPI.h>
 #include <mcp_can.h>
 #include "snapshot_xc70_2009.h"
+#include "periods_xc70_2009.h"
 
 static const uint16_t PERIOD_MS = 50;
 static uint8_t variantStep[64];
@@ -50,8 +51,30 @@ static const uint16_t EXTRA_IDS[] PROGMEM = {0x010, 0x020, 0x051, 0x115, 0x133, 
 static bool extraOn = false;
 static uint16_t skipIds[16]; static uint8_t skipCount = 0;   // IDs not to send ('z<id>' toggles)
 static bool skipped(uint16_t id) { for (uint8_t i = 0; i < skipCount; i++) if (skipIds[i] == id) return true; return false; }
+static bool realTiming = true;           // 'p' toggles per-ID real periods vs. 50 ms burst
+static unsigned long nextDue[64];
+static void sendOne(uint8_t i) {
+  SimId e; memcpy_P(&e, &SIM_IDS[i], sizeof(e));
+  uint8_t data[8];
+  memcpy_P(data, VARIANTS[e.first + (variantStep[i] % e.count)], 8);
+  variantStep[i]++;
+  if (e.id == 0x405 && (skip405 == 2 || (skip405 == 1 && data[0] >= 0x10 && data[0] <= 0x12))) return;
+  if (skipped(e.id)) return;
+  patchFrame(e.id, data);
+  if (can->sendMsgBuf(e.id, 0, 8, data) == CAN_OK) sentFrames++; else failedFrames++;
+}
 static void drainRx();
 static void sendCycle() {
+  if (sending && realTiming) {
+    unsigned long now = millis();
+    for (uint8_t i = 0; i < SIM_ID_COUNT; i++) {
+      if ((long)(now - nextDue[i]) >= 0) {
+        nextDue[i] = now + pgm_read_word(&SIM_PERIOD_MS[i]);
+        sendOne(i);
+      }
+    }
+    return;
+  }
   if (!sending || millis() - lastCycle < PERIOD_MS) return;
   lastCycle = millis();
   for (uint8_t i = 0; i < SIM_ID_COUNT; i++) {
@@ -259,6 +282,7 @@ void loop() {
       for (uint8_t i = 0; i < skipCount; i++) if (skipIds[i] == id) { skipIds[i] = skipIds[--skipCount]; found = true; break; }
       if (!found && id && skipCount < 16) skipIds[skipCount++] = id;
       Serial.print(F("# skipping ")); Serial.println(skipCount);
+    } else if (c == 'p') { realTiming = !realTiming; Serial.println(realTiming ? F("# real per-ID timing") : F("# 50 ms burst timing"));
     } else if (c == 'm') { extraOn = !extraOn; Serial.println(extraOn ? F("# extra V60 IDs on") : F("# extra V60 IDs off"));
     } else if (c == 'c') { // clear all DTCs (diagnostic memory only)
       const uint8_t r[8] = {0x04, 0x14, 0xFF, 0xFF, 0xFF, 0, 0, 0}; diagRequest(r);
