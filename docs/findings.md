@@ -89,3 +89,25 @@ VIDA has security code type `DIM000` "DIM, Y2, Default Key" for this variant (va
 ## Quick test result (23 November 2026)
 
 `31 01 02 02` started (status 2), and `31 03 02 02` reported completed (status 0, no on-demand DTCs). **Needles swept, warning LEDs lit, buzzer sounded, display stayed dark.** So the gauges, LEDs and sound work, and the display fails even in self-test, without any CAN signals. EE25 (LCD temperature A/D) reads 0000 while the other analog inputs EE21-EE24 read normal values (01F1, 0248, 01F1, 020B). This points to the LCD module or its flex connection, not to the CAN simulation.
+
+## Display flex CN2 (26 pins) voltages, 12 V on, simulator running
+
+Measured to ground. Pin 1 is at the left edge, as marked on the flex.
+
+| Pin | V | Pin | V |
+|---|---|---|---|
+| 1 | 0 | 14 | 0 |
+| 2 | 0 | 15 | 0 |
+| 3 | 3.3 | 16 | 0 |
+| 4 | 3.3 | 17 | 0 |
+| 5 | 0 | 18 | 0 |
+| 6 | toggling 0-2 (data/clock) | 19 | 3.0 |
+| 7 | 3.3 | 20 | 0 |
+| 8 | 2-2.8 (data) | 21 | 0 |
+| 9 | 3.0 | 22 | 0 |
+| 10 | 0 | 23 | 12 |
+| 11 | 0 | 24 | 8 |
+| 12 | 0 | 25 | 8 |
+| 13 | 0 | 26 | 0 |
+
+The display has logic supply, a 12 V rail and an 8 V rail, and the DIM is clocking data into it. It stays fully black, even under a flashlight (probably a transmissive TFT, which shows nothing without backlight). At power-up it flashes very faintly once. Either the backlight is switched off by the DIM, or the backlight/panel is faulty.
