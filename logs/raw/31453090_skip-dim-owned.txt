@@ -1,0 +1,15 @@
+== baseline
+ D10E 10 08 62 D1 0E 23 20 2B 21 20 FF 00 00 00 00 00
+ DTC 10 0B 59 02 FA C0 01 55 21 2F E1 00 00 2F 00 00
+ frames from DIM: []
+ later NEW: []
+== no DIM-owned 3C0 3EE 1D1
+ D10E 10 08 62 D1 0E 23 20 2B 21 20 FF 00 00 00 00 00
+ DTC 07 59 02 FA C0 01 55 2F
+ frames from DIM: []
+ later NEW: []
+== + no 392 39B
+ D10E 10 08 62 D1 0E 23 20 2B 21 20 FF 00 00 00 00 00
+ DTC 07 59 02 FA C0 01 55 2F
+ frames from DIM: []
+ later NEW: []

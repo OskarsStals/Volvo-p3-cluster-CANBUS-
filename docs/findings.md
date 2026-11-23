@@ -119,3 +119,10 @@ The display has logic supply, a 12 V rail and an 8 V rail, and the DIM is clocki
 - With 12 V on: one J1 pad reads **12 V**, the other **8 V** (the same 8 V as flex pins 24/25). Only 4 V across a multi-LED string means no current flows: the backlight looks switched off by its drive circuit, not broken.
 - Next confirmation: a 470 Ω - 2.2 kΩ resistor from the 8 V pad to ground should make the backlight glow if the LEDs are fine. Never short it directly.
 - Observation: when 12 V is applied, the panel turns from grey (unpowered, transparent) to **black**. The LCD electronics are alive and the DIM is actively driving a black image with the backlight off, i.e. a deliberate "display off" state, not a hardware fault.
+
+## Network management tests (23 November 2026)
+
+- No OSEK ring or AUTOSAR NM frames in the 2009 XC70 log (45 IDs, all DLC 8, all present in the snapshot). P3 NM looks implicit (supervision of cyclic frames plus power mode), not confirmed.
+- D10E now reads 23 20 2B 21 20: latest **NMExpulsion**, then NMNormal, NMReset, NMPreSleepNormal, NMNormal.
+- Dropping likely DIM-owned IDs (0x3C0, 0x3EE, 0x1D1, then also 0x392, 0x39B): the DIM still transmits nothing. U2100 no longer appears, U0001-55 stays active, D10E unchanged.
+- Simulator has a skip list (`z<id>` toggles, `z0` clears) for this kind of test.

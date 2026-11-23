@@ -47,7 +47,9 @@ static unsigned long lastCycle = 0, sentFrames = 0, failedFrames = 0, lastReport
 // 2009 XC70 log. Sent with zero data to test whether the 2017 DIM expects them.
 static const uint16_t EXTRA_IDS[] PROGMEM = {0x010, 0x020, 0x051, 0x115, 0x133, 0x180, 0x220, 0x235,
   0x246, 0x260, 0x261, 0x262, 0x264, 0x270, 0x288, 0x2EE, 0x31A, 0x322, 0x3FD, 0x40F, 0x4FF};
-static bool extraOn = true;
+static bool extraOn = false;
+static uint16_t skipIds[16]; static uint8_t skipCount = 0;   // IDs not to send ('z<id>' toggles)
+static bool skipped(uint16_t id) { for (uint8_t i = 0; i < skipCount; i++) if (skipIds[i] == id) return true; return false; }
 static void drainRx();
 static void sendCycle() {
   if (!sending || millis() - lastCycle < PERIOD_MS) return;
@@ -59,6 +61,7 @@ static void sendCycle() {
     memcpy_P(data, VARIANTS[e.first + (variantStep[i] % e.count)], 8);
     variantStep[i]++;
     if (e.id == 0x405 && (skip405 == 2 || (skip405 == 1 && data[0] >= 0x10 && data[0] <= 0x12))) continue;
+    if (skipped(e.id)) continue;
     patchFrame(e.id, data);
     if (can->sendMsgBuf(e.id, 0, 8, data) == CAN_OK) sentFrames++;
     else failedFrames++;
@@ -250,6 +253,12 @@ void loop() {
     } else if (c == 'i') { // i<b0> <b1> hex, e.g. i78 07 ; overrides 0x030 bytes 0-1
       ign0 = readHex16(); ign1 = readHex16();
       Serial.print(F("# 0x030 = ")); Serial.print(ign0, HEX); Serial.print(' '); Serial.println(ign1, HEX);
+    } else if (c == 'z') { // z<id> hex: toggle skipping that ID; z0 clears the list
+      uint16_t id = readHex16(); bool found = false;
+      if (id == 0) skipCount = 0;
+      for (uint8_t i = 0; i < skipCount; i++) if (skipIds[i] == id) { skipIds[i] = skipIds[--skipCount]; found = true; break; }
+      if (!found && id && skipCount < 16) skipIds[skipCount++] = id;
+      Serial.print(F("# skipping ")); Serial.println(skipCount);
     } else if (c == 'm') { extraOn = !extraOn; Serial.println(extraOn ? F("# extra V60 IDs on") : F("# extra V60 IDs off"));
     } else if (c == 'c') { // clear all DTCs (diagnostic memory only)
       const uint8_t r[8] = {0x04, 0x14, 0xFF, 0xFF, 0xFF, 0, 0, 0}; diagRequest(r);
