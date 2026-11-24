@@ -127,3 +127,39 @@ The display has logic supply, a 12 V rail and an 8 V rail, and the DIM is clocki
 - Dropping likely DIM-owned IDs (0x3C0, 0x3EE, 0x1D1, then also 0x392, 0x39B): the DIM still transmits nothing. U2100 no longer appears, U0001-55 stays active, D10E unchanged.
 - Simulator has a skip list (`z<id>` toggles, `z0` clears) for this kind of test.
 - **Real per-ID timing** (`periods_xc70_2009.h`, simulator `p` toggles, now default): same result. DIM silent, U0001-55 active, D10E unchanged (23 20 2B 21 20), D940/D990 speed DIDs 0, EECD 0.
+
+## DiCE on the bench (plan, 24 November 2026, not done yet)
+
+- DiCE is powered only from the OBD socket: +12 V on pin 16, ground on 4 and 5. A bench supply works (recommended about 13.6 V, up to 3 A). A low voltage only blocks programming in VIDA.
+- **Do not push wires into the DiCE plug.** Use an OBD female socket with leads (pigtail or breakout box) and measure it before plugging the DiCE in.
+
+| OBD pin | Volvo P3 meaning | Bench connection |
+|---|---|---|
+| 16 | voltage feed | +12 V through a 1 A fuse |
+| 4 | chassis ground | supply minus |
+| 5 | signal ground | supply minus |
+| 6 | HS-CAN H | cluster / shield CAN-H |
+| 14 | HS-CAN L | cluster / shield CAN-L |
+| 3 / 11 | MS-CAN H / L | not used |
+| all others | | leave free |
+
+- Pin numbers from the front (mating side) are mirrored compared with the wire side. Trust the numbers molded on the socket and the meter, not pictures.
+- **Checks before plugging the DiCE in:**
+  - Power off, resistance:
+    - 4-5: about 0 Ω;
+    - 16-4: no short;
+    - 6-14: about 60 Ω (or 120 Ω);
+    - 16-6 and 16-14: no short.
+  - Power on, measured to supply minus:
+    - 16 = **+12 V** (a reading of -12 V means reversed polarity: stop);
+    - 4 and 5 = 0 V;
+    - 6 and 14 about 2.5 V;
+    - every other pin = 0 V.
+- **Expected limits:**
+  - VIDA and VDASH both start by reading the VIN from the CEM. Without a CEM, VIDA diagnostics most likely fail, and VIDA 2014D does not list this 2017 DIM.
+  - VDASH reconfiguration of a newer DIM in an older car needs the car's VIN on the VDASH whitelist, which is paid (a forum figure of about 300 EUR, outdated).
+- **Plan:**
+  1. Install the DiCE driver (`SetupDiCE.exe` 6.2.0.1 from the VIDA 2014D installer, unsigned).
+  2. Wire and check as above, then start VIDA while the simulator logs every diagnostic frame (`L`, on by default).
+  3. If VIDA only asks the CEM for its VIN and part numbers, the simulator can answer as the CEM.
+  4. Otherwise, go to VDASH with the cluster on the car's OBD 6/14. Ask d5t5 for the current price first.
